@@ -1,1 +1,1 @@
-include ':app', ':easy_android_database'
+include ':app', ':easydatabase'
