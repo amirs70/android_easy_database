@@ -3,6 +3,7 @@ package ir.itroid.easydatabase;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,7 +158,6 @@ public class Database {
         StringBuilder out_where = new StringBuilder();
         int andWhereSize = where.size();
         boolean isOutFirst = true;
-        boolean isInnerFirst = true;
         for (ArrayList<WhereStructur> andWhere : where) {
             if (isOutFirst) {
                 isOutFirst = false;
@@ -165,6 +165,7 @@ public class Database {
                 out_where.append(" AND ");
             }
             out_where.append("(");
+            boolean isInnerFirst = true;
             for (WhereStructur orWhere : andWhere) {
                 if (isInnerFirst) {
                     isInnerFirst = false;
@@ -187,13 +188,15 @@ public class Database {
     protected String getSelectQuery(boolean whitAdditional) {
         String w = getWhere();
         return "SELECT * FROM `" + table +
-                (w.equals("") ? "" : "` WHERE " + getWhere()) +
+                (w.equals("") ? "" : "` WHERE (" + getWhere()) + ")" +
                 getAdditional(whitAdditional);
     }
 
     protected double getCountOfAll() {
         Cursor cursor;
-        cursor = DatabaseCore.DB.rawQuery(getSelectQuery(false), null);
+        String q = getSelectQuery(false);
+        Log.i("DBUG", q);
+        cursor = DatabaseCore.DB.rawQuery(q, null);
         int count = cursor.getCount();
         cursor.close();
         return count;

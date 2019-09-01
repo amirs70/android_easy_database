@@ -2,13 +2,20 @@ package ir.itroid.databaselib;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import java.util.Date;
+import java.util.Random;
+
+import ir.itroid.easydatabase.Database;
+import ir.itroid.easydatabase.ResultStructur;
+
+import static ir.itroid.databaselib.App.DBG;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String[] hash = new String[]{"kajsdnkasjdvnjksnv", "29q34e2n3jrfjfnkqj", "czxczdfmoinaq3wrw903fuej9v"};
     long last_id;
+    private String[] hash = new String[]{"kajsdnkasjdvnjksnv", "29q34e2n3jrfjfnkqj", "czxczdfmoinaq3wrw903fuej9v"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +39,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.read).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Random r = new Random();
-                ResultStructur resultStructur = new Database("task")
-                        .addWhere("domain;=;itroid.ir")
-                        .one();
-                Log.e(DBG, "read: " + resultStructur.result.toString());
+
             }
         });
 
@@ -61,7 +64,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(DBG, "delete: " + resultStructur.stat);
             }
         });*/
-
+        Random r = new Random();
+        ResultStructur resultStructur = new Database("task")
+                .addWhere("domain;=;itroid.ir", "hash;LIKE;adsd")
+                .addWhere("hash;!=;few")
+                .withQuery(true)
+                .read();
+        Log.e(DBG, "read: " + resultStructur.toString());
     }
 
     private long getTime() {

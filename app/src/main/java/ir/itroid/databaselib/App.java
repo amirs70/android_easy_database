@@ -2,6 +2,12 @@ package ir.itroid.databaselib;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import ir.itroid.easydatabase.DatabaseCore;
+import ir.itroid.easydatabase.DatabaseTableQuery;
+import ir.itroid.easydatabase.TABLE_TYPES;
 
 @SuppressLint("StaticFieldLeak")
 public class App extends Application {
@@ -14,7 +20,7 @@ public class App extends Application {
     }
 
     private void initDB() {
-        /*new DatabaseCore(getApplicationContext(), "tasks", 1, new DatabaseCore.Callable() {
+        new DatabaseCore(getApplicationContext(), "tasks", 1, new DatabaseCore.Callable() {
             @Override
             public void onCreate(SQLiteDatabase db) {
                 String query = new DatabaseTableQuery("task").createTableIfNotExists()
@@ -30,6 +36,6 @@ public class App extends Application {
             public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
             }
-        });*/
+        });
     }
 }
